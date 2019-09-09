@@ -18,18 +18,18 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef _GUASSIANHIGHPASS_PLUGIN_H_
-#define _GUASSIANHIGHPASS_PLUGIN_H_
+#ifndef _GAUSSIANHIGHPASS_PLUGIN_H_
+#define _GAUSSIANHIGHPASS_PLUGIN_H_
 
 #include <QObject>
 #include <QVariant>
 
-class GuassianHighPassPlugin : public QObject
+class GaussianHighPassPlugin : public QObject
 {
     Q_OBJECT
 public:
-    GuassianHighPassPlugin(QObject *parent, const QVariantList &);
-    ~GuassianHighPassPlugin() override;
+    GaussianHighPassPlugin(QObject *parent, const QVariantList &);
+    ~GaussianHighPassPlugin() override;
 };
 
 #endif

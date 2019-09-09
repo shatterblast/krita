@@ -1,7 +1,5 @@
 /*
- * This file is part of Krita
- *
- * Copyright (c) 2019 Miguel Lopez <reptillia39@live.com>
+ *  Copyright (c) 2018 Jouni Pentikäinen <joupent@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,25 +15,28 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+#ifndef KISCANVASWINDOW_H
+#define KISCANVASWINDOW_H
 
-#include "guassianhighpass.h"
-#include <kpluginfactory.h>
+#include <QWidget>
 
-#include "guassianhighpass_filter.h"
+class KisMainWindow;
 
-#include <filter/kis_filter_registry.h>
-
-K_PLUGIN_FACTORY_WITH_JSON(GuassianHighPassPluginFactory, "kritaguassianhighpassfilter.json", registerPlugin<GuassianHighPassPlugin>();)
-
-GuassianHighPassPlugin::GuassianHighPassPlugin(QObject *parent, const QVariantList &)
-        : QObject(parent)
+/**
+ * Window for the canvas (mdi) area. Used when detached canvas mode is enabled.
+ */
+class KisCanvasWindow : public QWidget
 {
-    KisFilterRegistry::instance()->add(new KisGuassianHighPassFilter());
+public:
+    explicit KisCanvasWindow(KisMainWindow *mainWindow);
+    ~KisCanvasWindow() override;
 
-}
+    QWidget * swapMainWidget(QWidget *widget);
 
-GuassianHighPassPlugin::~GuassianHighPassPlugin()
-{
-}
+    void closeEvent(QCloseEvent *event) override;
+private:
+    struct Private;
+    QScopedPointer<Private> d;
+};
 
-#include "guassianhighpass.moc"
+#endif

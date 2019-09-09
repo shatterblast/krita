@@ -530,7 +530,9 @@ void KisLayerManager::convertLayerToFileLayer(KisNodeSP source)
     QScopedPointer<KisDocument> doc(KisPart::instance()->createDocument());
 
     QRect bounds = source->exactBounds();
-
+    if (bounds.isEmpty()) {
+        bounds = image->bounds();
+    }
     KisImageSP dst = new KisImage(doc->createUndoStore(),
                                   image->width(),
                                   image->height(),
@@ -627,9 +629,15 @@ KisNodeSP KisLayerManager::addGroupLayer(KisNodeSP activeNode)
 KisNodeSP KisLayerManager::addCloneLayer(KisNodeSP activeNode)
 {
     KisImageWSP image = m_view->image();
-    KisNodeSP node = new KisCloneLayer(activeLayer(), image.data(), image->nextLayerName(), OPACITY_OPAQUE_U8);
-    addLayerCommon(activeNode, node, true, 0);
-    return node;
+    KisNodeList selection = m_view->nodeManager()->selectedNodes();
+
+    KisNodeSP node, clonedNode;
+    Q_FOREACH (node, selection) {
+        KisNodeSP clonedNode = new KisCloneLayer(qobject_cast<KisLayer*>(node.data()), image.data(), image->nextLayerName(), OPACITY_OPAQUE_U8);
+        addLayerCommon(activeNode, clonedNode, true, 0 );
+    }
+
+    return clonedNode;
 }
 
 KisNodeSP KisLayerManager::addShapeLayer(KisNodeSP activeNode)

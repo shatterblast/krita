@@ -381,7 +381,7 @@ bool KisInputManager::Private::ProximityNotifier::eventFilter(QObject* object, Q
      * To avoid this problem we should explicitly ignore all the tablet events.
      */
 #if defined Q_OS_LINUX && \
-    QT_VERSION >= QT_VERSION_CHECK(5, 7, 0) && \
+    QT_VERSION >= QT_VERSION_CHECK(5, 9, 0) && \
     QT_VERSION < QT_VERSION_CHECK(5, 12, 0)
 
     if (event->type() == QEvent::TabletMove ||
@@ -507,7 +507,9 @@ void KisInputManager::Private::addTouchShortcut(KisAbstractInputAction* action, 
     switch(gesture) {
     case KisShortcutConfiguration::RotateGesture:
     case KisShortcutConfiguration::PinchGesture:
+#ifndef Q_OS_MACOS
     case KisShortcutConfiguration::ZoomAndRotateGesture:
+#endif
         shortcut->setMinimumTouchPoints(2);
         shortcut->setMaximumTouchPoints(2);
         break;

@@ -117,6 +117,11 @@ public:
      */
     void clearRecentFiles();
 
+    /**
+     * removes the given url from the list of recent files
+     */
+    void removeRecentUrl(const QUrl &url);
+
 
     /**
      * Load the desired document and show it.
@@ -186,6 +191,12 @@ public:
     KisView *addViewAndNotifyLoadingCompleted(KisDocument *document);
 
     QStringList showOpenFileDialog(bool isImporting);
+
+    /**
+     * The top-level window used for a detached canvas.
+     */
+    QWidget *canvasWindow() const;
+    bool canvasDetached() const;
 
     /**
      * Shows if the main window is saving anything right now. If the
@@ -297,7 +308,10 @@ public Q_SLOTS:
      */
     void reloadRecentFileList();
 
-
+    /**
+     * Detach canvas onto a separate window, or restore it back to to main window.
+     */
+    void setCanvasDetached(bool detached);
 
 private Q_SLOTS:
     /**
